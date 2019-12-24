@@ -9,19 +9,22 @@ cfg = __C
 
 
 def load_classes(data='voc'):
-    fname = path.dirname(path.abspath(__file__))
+    fname = path.dirname(path.abspath(__file__))  # the dir path of current python file
+    # here is /opt/FewShot_object_detection/Fewshot_Detection/cfg_.py
+
     fname = path.join(fname, 'data/{}.names'.format(data))
     print(fname)
     with open(fname) as f:
-        classes = [l.strip() for l in f.readlines()]
+        classes = [l.strip() for l in f.readlines()]  # get the class name of current data_set
     return classes
+
 
 __C.voc_classes = ["aeroplane", "bicycle", "bird", "boat", "bottle",
             "bus", "car", "cat", "chair", "cow", "diningtable",
             "dog", "horse", "motorbike", "person", "pottedplant",
-            "sheep", "sofa", "train", "tvmonitor"]
+            "sheep", "sofa", "train", "tvmonitor"]  # the classes in voc data_set
 
-__C.coco_classes = load_classes(data='coco')
+__C.coco_classes = load_classes(data='coco')  # the classes in voc coco_set
 __C.vocids_in_coco = [__C.coco_classes.index(c) for c in __C.voc_classes]
 __C.cocoonly_ids = [i for i in range(len(__C.coco_classes)) if i not in __C.vocids_in_coco]
 
@@ -38,6 +41,7 @@ __C.multiscale = True
 # '1' for image only, '2' for image + mask, '3' for image + mask + croped obj
 __C.metain_type = 2
 
+
 def get_ids(root):
     lines = []
     with open(root, 'r') as f:
@@ -52,6 +56,7 @@ def get_ids(root):
     # print(ids)
     return ids
 
+
 def get_novels(root, id=None):
     if root.endswith('txt'):
         if id == 'None':
@@ -62,10 +67,12 @@ def get_novels(root, id=None):
     else:
         return root.split(',')
 
+
 def add_backup(backup, addon):
     strs = backup.split('_')
     strs[0] += addon
     return '_'.join(strs)
+
 
 def __configure_data(dataopt):
     __C.data = dataopt['data']
@@ -145,6 +152,7 @@ def __configure_data(dataopt):
         cfg.metaids = get_ids(dataopt['meta'])
         shot = int(dataopt['meta'].split('.')[0].split('_')[-1].replace('shot', ''))
         __C.backup += '_joint{}'.format(shot)
+
 
 def __configure_net(netopt):
     __C.height = int(netopt['height'])
@@ -449,11 +457,16 @@ def load_conv_bn(buf, start, conv_model, bn_model):
     num_w = conv_model.weight.numel()
     num_b = bn_model.bias.numel()
     bn_model.bias.data.copy_(torch.from_numpy(buf[start:start+num_b]));     start = start + num_b
+    print(start)
     bn_model.weight.data.copy_(torch.from_numpy(buf[start:start+num_b]));   start = start + num_b
     bn_model.running_mean.copy_(torch.from_numpy(buf[start:start+num_b]));  start = start + num_b
     bn_model.running_var.copy_(torch.from_numpy(buf[start:start+num_b]));   start = start + num_b
-    conv_model.weight.data.copy_(torch.from_numpy(buf[start:start+num_w])); start = start + num_w 
+    a = buf[start:start + num_w]
+    a = torch.from_numpy(a)
+    a = a.view(conv_model.weight.data.shape)
+    conv_model.weight.data.copy_(a); start = start + num_w
     return start
+
 
 def save_conv_bn(fp, conv_model, bn_model):
     if bn_model.bias.is_cuda:

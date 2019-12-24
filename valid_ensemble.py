@@ -4,8 +4,8 @@ import torch
 from torch.autograd import Variable
 from torchvision import datasets, transforms
 from utils import *
-from cfg import cfg
-from cfg import parse_cfg
+from cfg_ import cfg
+from cfg_ import parse_cfg
 import os
 import pdb
 
@@ -181,6 +181,7 @@ def valid(datacfg, darknetcfg, learnetcfg, weightfile, outfile, use_baserw=False
         fps[i].close()
 
     # import pdb; pdb.set_trace()
+
 
 if __name__ == '__main__':
     import sys

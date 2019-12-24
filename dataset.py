@@ -10,7 +10,7 @@ from torchvision import transforms
 from PIL import Image
 from utils import read_truths_args, read_truths, is_dict
 from image import *
-from cfg import cfg
+from cfg_ import cfg
 from collections import defaultdict
 import pdb
 
@@ -327,6 +327,8 @@ class MetaDataset(Dataset):
 
             self.metalines = [[]] * len(self.classes)
             for i, clsname in enumerate(self.classes):
+                if '/home/bykang' in metafiles[clsname]:
+                    metafiles[clsname] = metafiles[clsname].replace('/home/bykang/voc', '/opt/FewShot_object_detection/Fewshot_Detection/data')
                 with open(metafiles[clsname], 'r') as imgf:
                     lines = [topath(l) for l in imgf.readlines()]
                     self.metalines[i] = lines

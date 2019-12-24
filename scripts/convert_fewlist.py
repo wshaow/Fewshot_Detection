@@ -5,7 +5,7 @@ import numpy as np
 from os import path
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--droot', type=str, default='/home/bykang/voc')
+parser.add_argument('--droot', type=str, default='/opt/FewShot_object_detection/Fewshot_Detection/data')
 args = parser.parse_args()
 
 args.droot = args.droot.rstrip('/')

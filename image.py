@@ -6,7 +6,7 @@ import pdb
 import numpy as np
 from PIL import Image
 from PIL import ImageFile
-from cfg import cfg
+from cfg_ import cfg
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 

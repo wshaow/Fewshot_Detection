@@ -1,7 +1,7 @@
 metayolo = 0
 data = voc
-train = /scratch/bykang/datasets/voc_train.txt
-valid = /scratch/bykang/datasets/2007_test.txt
+train = /opt/FewShot_object_detection/Fewshot_Detection/data/voc_train.txt
+valid = /opt/FewShot_object_detection/Fewshot_Detection/data/2007_test.txt
 # valid = /scratch/bykang/coco/cocolist/valid5.txt
 # meta = data/voc_traindict_bbox_5shot.txt
 meta = data/voc_traindict_bbox_5shot.txt

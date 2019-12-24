@@ -1,6 +1,6 @@
 from __future__ import print_function
 import sys
-if len(sys.argv) != 5:
+if len(sys.argv) != 5:  # 至少传入5个参数
     print('Usage:')
     print('python train.py datacfg darknetcfg learnetcfg weightfile')
     exit()
@@ -19,18 +19,18 @@ import random
 import math
 import os
 from utils import *
-from cfg import parse_cfg, cfg
+from cfg_ import parse_cfg, cfg
 from darknet_meta import Darknet
 from models.tiny_yolo import TinyYoloNet
 import pdb
 
 # Training settings
 datacfg       = sys.argv[1]
-darknetcfg    = parse_cfg(sys.argv[2])
-learnetcfg    = parse_cfg(sys.argv[3])
-weightfile    = sys.argv[4]
+darknetcfg    = parse_cfg(sys.argv[2])  # darknetcfg
+learnetcfg    = parse_cfg(sys.argv[3])  # learnetcfg
+weightfile    = sys.argv[4]  # weightfile
 
-data_options  = read_data_cfg(datacfg)
+data_options  = read_data_cfg(datacfg)  # return a dict
 net_options   = darknetcfg[0]
 meta_options  = learnetcfg[0]
 

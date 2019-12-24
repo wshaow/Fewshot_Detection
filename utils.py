@@ -457,6 +457,7 @@ def do_detect(model, img, conf_thresh, nms_thresh, use_cuda=1):
         print('-----------------------------------')
     return boxes
 
+
 def read_data_cfg(datacfg):
     options = dict()
     options['gpus'] = '0,1,2,3'
@@ -465,14 +466,15 @@ def read_data_cfg(datacfg):
         lines = fp.readlines()
 
     for line in lines:
-        line = line.strip()
-        if line == '' or line.startswith('#'):
+        line = line.split('#')[0]  # let it can handle this situation "123 # "
+        if line == '' or line.startswith('#'):  # delete empty lines and annotate lines
             continue
         key,value = line.split('=')
         key = key.strip()
         value = value.strip()
         options[key] = value
     return options
+
 
 def scale_bboxes(bboxes, width, height):
     import copy

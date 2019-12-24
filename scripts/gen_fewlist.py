@@ -12,9 +12,10 @@ classes = ["aeroplane", "bicycle", "bird", "boat", "bottle",
 # few_nums = [1, 10]
 few_nums = [1, 2, 3, 5, 10]
 # few_nums = [20]
-DROOT = '/home/bykang/voc'
+DROOT = '/opt/FewShot_object_detection/Fewshot_Detection/data'
 root =  DROOT + '/voclist/'
 rootfile =  DROOT + '/voc_train.txt'
+
 
 def is_valid(imgpath, cls_name):
     imgpath = imgpath.strip()
@@ -25,6 +26,7 @@ def is_valid(imgpath, cls_name):
         return True
     else:
         return False
+
 
 def gen_image_fewlist():
     print('-----------------------------------------------------------')

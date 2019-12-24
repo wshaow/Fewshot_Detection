@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from region_loss import RegionLossV2
-from cfg import *
+from cfg_ import *
 # from dynamic_conv import DynamicConv2d
 from dynamic_conv import dynamic_conv2d
 from pooling import GlobalMaxPool2d
@@ -223,7 +223,7 @@ class Darknet(nn.Module):
                 kernel_size = int(block['size'])
                 stride = int(block['stride'])
                 is_pad = int(block['pad'])
-                pad = (kernel_size-1)/2 if is_pad else 0
+                pad = int((kernel_size-1)/2 if is_pad else 0)
                 activation = block['activation']
                 groups = 1
                 bias = bool(int(block['bias'])) if 'bias' in block else True
