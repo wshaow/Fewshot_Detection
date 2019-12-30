@@ -90,10 +90,11 @@ def valid(datacfg, darknetcfg, learnetcfg, weightfile, outfile, use_baserw=False
         for metax, mask, clsids in metaloader:
             print('===> {}/{}'.format(kkk, len(metaset) // 64))
             kkk += 1
-            metax, mask = metax.cuda(), mask.cuda()
-            metax, mask = Variable(metax, volatile=True), Variable(mask, volatile=True)
-            dws = m.meta_forward(metax, mask)
-            dw = dws[0]
+            with torch.no_grad():
+                metax, mask = metax.cuda(), mask.cuda()
+                metax, mask = Variable(metax), Variable(mask)
+                dws = m.meta_forward(metax, mask)
+                dw = dws[0]
             for ci, c in enumerate(clsids):
                 enews[c] = enews[c] * cnt[c] / (cnt[c] + 1) + dw[ci] / (cnt[c] + 1)
                 cnt[c] += 1
@@ -135,9 +136,10 @@ def valid(datacfg, darknetcfg, learnetcfg, weightfile, outfile, use_baserw=False
     conf_thresh = 0.005
     nms_thresh = 0.45
     for batch_idx, (data, target) in enumerate(valid_loader):
-        data = data.cuda()
-        data = Variable(data, volatile = True)
-        output = m.detect_forward(data, dynamic_weights)
+        with torch.no_grad():
+            data = data.cuda()
+            data = Variable(data)
+            output = m.detect_forward(data, dynamic_weights)
 
         if isinstance(output, tuple):
             output = (output[0].data, output[1].data)
@@ -171,7 +173,7 @@ def valid(datacfg, darknetcfg, learnetcfg, weightfile, outfile, use_baserw=False
                     y2 = (box[1] + box[3]/2.0) * height
 
                     det_conf = box[4]
-                    for j in range((len(box)-5)/2):
+                    for j in range(int((len(box)-5)/2)):
                         cls_conf = box[5+2*j]
                         cls_id = box[6+2*j]
                         prob =det_conf * cls_conf

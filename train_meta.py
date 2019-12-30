@@ -315,7 +315,6 @@ def test(epoch):
     logging("precision: %f, recall: %f, fscore: %f" % (precision, recall, fscore))
 
 
-
 evaluate = False
 if evaluate:
     logging('evaluating ...')
